@@ -2,6 +2,7 @@
 import React, { useState, useRef } from 'react';
 import './App.css';
 
+
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 import 'firebase/compat/auth';
@@ -33,16 +34,14 @@ function App() {
   return (
     <div className="App">
       <header>
-      <h1>
-        Fuck you
-        <SignOut/>
-      </h1>
-
+        <h1>⚛️🔥💬</h1>
+        <SignOut />
       </header>
 
       <section>
         {user ? <ChatRoom /> : <SignIn />}
       </section>
+
     </div>
   );
 }
@@ -118,19 +117,19 @@ function ChatRoom(){
 
 }
 
+
 function ChatMessage(props) {
   const { text, uid, photoURL } = props.message;
 
   const messageClass = uid === auth.currentUser.uid ? 'sent' : 'received';
 
   return (<>
-    <div className={'message ${messageClass}'}>
-      <img src={photoURL} />
+    <div className={`message ${messageClass}`}>
+      <img src={photoURL || 'https://api.adorable.io/avatars/23/abott@adorable.png'} />
       <p>{text}</p>
     </div>
-
-
   </>)
 }
+
 
 export default App;
