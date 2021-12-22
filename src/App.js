@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+
+import React, { useState, useRef } from 'react';
 import './App.css';
 
-import firebase from 'firebase/app'
-import 'firebase/firestore';
-import 'firebase/auth'
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/firestore';
+import 'firebase/compat/auth';
+
 
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
-import { signInAnonymously } from 'firebase/auth';
+//import { signInAnonymously } from 'firebase/auth';
 
 firebase.initializeApp({
   apiKey: "AIzaSyBTCC3D80WmuS37rJ3TZlGWxjdAMXYHNoQ",
@@ -19,17 +21,23 @@ firebase.initializeApp({
   measurementId: "G-K2JBT5YXNV"
 })
 
+
 const auth = firebase.auth();
 const firestore = firebase.firestore();
 
+
 function App() {
 
-  const[user] = useAuthState(auth);
+  const [user] = useAuthState(auth);
 
   return (
     <div className="App">
       <header>
-      
+      <h1>
+        Fuck you
+        <SignOut/>
+      </h1>
+
       </header>
 
       <section>
@@ -61,11 +69,12 @@ function SignOut(){
 }
 
 function ChatRoom(){
-
+  
+  const dummy = useRef();
   const messagesRef = firestore.collection('messages');
   const query = messagesRef.orderBy('createdAt').limit(25);
 
-  const [message] = useCollectionData(query, {idField: 'id'});
+  const [messages] = useCollectionData(query, {idField: 'id'});
 
   const [formValue, setFormValue] = useState('');
 
@@ -91,7 +100,7 @@ function ChatRoom(){
   return(
     <>
       <main>
-       {messages && message.map(msg => <ChatMessage key={msg.id} message={msg} />)}
+       {messages && messages.map(msg => <ChatMessage key={msg.id} message={msg} />)}
       
         <div ref={dummy}></div>
       
@@ -101,7 +110,7 @@ function ChatRoom(){
 
         <input value={formValue} onChange={(e) => setFormValue(e.target.value)} />
 
-        <button type="submit"><img src={"../public/img/sendButtonIdea_1.png"} /></button>
+        <button type="submit">SEND</button>
 
       </form>
     </>
@@ -110,16 +119,18 @@ function ChatRoom(){
 }
 
 function ChatMessage(props) {
-  const { text, uid } = props.message;
+  const { text, uid, photoURL } = props.message;
 
   const messageClass = uid === auth.currentUser.uid ? 'sent' : 'received';
 
-  return (
+  return (<>
     <div className={'message ${messageClass}'}>
       <img src={photoURL} />
       <p>{text}</p>
     </div>
-  )
+
+
+  </>)
 }
 
 export default App;
