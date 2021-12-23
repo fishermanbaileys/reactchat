@@ -1,14 +1,17 @@
 
 import React, { useState, useRef } from 'react';
 import './App.css';
+import ReactLogo from './components/sendicon.svg'
+import Picker from 'emoji-picker-react';
+
+
 
 
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 import 'firebase/compat/auth';
 
-
-import { useAuthState } from 'react-firebase-hooks/auth';
+import { useAuthState, useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 //import { signInAnonymously } from 'firebase/auth';
 
@@ -34,12 +37,14 @@ function App() {
   return (
     <div className="App">
       <header>
-        <h1>⚛️🔥💬</h1>
+        
         <SignOut />
       </header>
 
       <section>
+        <div class="backgroundlog">
         {user ? <ChatRoom /> : <SignIn />}
+        </div>
       </section>
 
     </div>
@@ -56,14 +61,20 @@ function SignIn() {
 
 
   return (
-    <button onClick={signInWithGoogle}>Sign in with Google</button>
+    <div class='loginbtn'>
+
+    <button3 class="material-bubble" onClick={signInWithGoogle}>Login with Google</button3>
+
+    <button2 onClick={useSignInWithEmailAndPassword}>Login with Email</button2>
+
+    </div>
   )
 }
 
 function SignOut(){
   return auth.currentUser&& (
 
-    <button onClick={() => auth.signOut()}>Sign Out</button>
+    <button1 onClick={() => auth.signOut()}>Sign Out</button1>
   )
 }
 
@@ -71,9 +82,12 @@ function ChatRoom(){
   
   const dummy = useRef();
   const messagesRef = firestore.collection('messages');
-  const query = messagesRef.orderBy('createdAt').limit(25);
+  const query = messagesRef.orderBy('createdAt').limit(1000);
 
   const [messages] = useCollectionData(query, {idField: 'id'});
+
+
+  
 
   const [formValue, setFormValue] = useState('');
 
@@ -89,7 +103,7 @@ function ChatRoom(){
       uid,
       photoURL
     })
-    
+  
     setFormValue('');
 
     dummy.current.scrollIntoView({ behavior: 'smooth' });
@@ -105,13 +119,16 @@ function ChatRoom(){
       
       </main>
 
-      <form onSubmit={sendMessage}>
+      <div class="message-box">
 
-        <input value={formValue} onChange={(e) => setFormValue(e.target.value)} />
+      <textarea  value={formValue} onChange={(e) => setFormValue(e.target.value)}  type="text" class="message-input" placeholder="Type message..."></textarea>
 
-        <button type="submit">SEND</button>
 
-      </form>
+      
+          <button onClick={sendMessage} class="message-submit"><img class="rocket" src={ReactLogo}></img></button>
+
+
+      </div>
     </>
   )
 
