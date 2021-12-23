@@ -1,11 +1,13 @@
 
 import React, { useState, useRef } from 'react';
 import './App.css';
+import Picker from 'emoji-picker-react';
 
 
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 import 'firebase/compat/auth';
+
 
 
 import { useAuthState } from 'react-firebase-hooks/auth';
@@ -22,6 +24,9 @@ firebase.initializeApp({
   measurementId: "G-K2JBT5YXNV"
 })
 
+//reCaptcha AppCheck setup
+const appCheck = firebase.appCheck();
+appCheck.activate('6LeTTcAdAAAAAPeZFeFXLOFd09Xx3I-awHD9g0hS', true);
 
 const auth = firebase.auth();
 const firestore = firebase.firestore();
@@ -71,9 +76,18 @@ function ChatRoom(){
   
   const dummy = useRef();
   const messagesRef = firestore.collection('messages');
-  const query = messagesRef.orderBy('createdAt').limit(25);
+  const query = messagesRef.orderBy('createdAt');
 
   const [messages] = useCollectionData(query, {idField: 'id'});
+
+
+//Emoji Construct
+const [showPicker, setShowPicker] = useState(false);
+
+const onEmojiClick = (event, emojiObject) => {
+  setFormValue(prevInput => prevInput + emojiObject.emoji);
+  setShowPicker(false);
+};
 
   const [formValue, setFormValue] = useState('');
 
@@ -104,14 +118,17 @@ function ChatRoom(){
         <div ref={dummy}></div>
       
       </main>
+      
+      <div>
+          
+        <input className='input-style' value={formValue} onChange={(e) => setFormValue(e.target.value)} />
+        <img className="emoji-icon" src="https://icons.getbootstrap.com/assets/icons/emoji-smile.svg" onClick={() => setShowPicker(val => !val)} /> 
+        {showPicker && <Picker pickerStyle={{width: '100%'}} onEmojiClick={onEmojiClick} />}
 
-      <form onSubmit={sendMessage}>
+        <button onClick={sendMessage}>Send</button>
+          
+      </div>
 
-        <input value={formValue} onChange={(e) => setFormValue(e.target.value)} />
-
-        <button type="submit">SEND</button>
-
-      </form>
     </>
   )
 
