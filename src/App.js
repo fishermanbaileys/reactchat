@@ -25,6 +25,10 @@ firebase.initializeApp({
   measurementId: "G-K2JBT5YXNV"
 })
 
+//reCaptcha AppCheck setup
+const appCheck = firebase.appCheck();
+appCheck.activate('6LeTTcAdAAAAAPeZFeFXLOFd09Xx3I-awHD9g0hS', true);
+
 
 const auth = firebase.auth();
 const firestore = firebase.firestore();
