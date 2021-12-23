@@ -1,7 +1,8 @@
 
 import React, { useState, useRef } from 'react';
 import './App.css';
-import ReactLogo from './components/sendicon.svg'
+import ReactLogo from './components/sendicon.svg';
+import smileLogo from './components/smileBitch.png';
 import Picker from 'emoji-picker-react';
 
 
@@ -26,8 +27,8 @@ firebase.initializeApp({
 })
 
 //reCaptcha AppCheck setup
-const appCheck = firebase.appCheck();
-appCheck.activate('6LeTTcAdAAAAAPeZFeFXLOFd09Xx3I-awHD9g0hS', true);
+//const appCheck = firebase.appCheck();
+//appCheck.activate('6LeTTcAdAAAAAPeZFeFXLOFd09Xx3I-awHD9g0hS', true);
 
 
 const auth = firebase.auth();
@@ -90,8 +91,13 @@ function ChatRoom(){
 
   const [messages] = useCollectionData(query, {idField: 'id'});
 
-
-  
+  //Emoji Construct
+  const EmojiPicker = () => (
+    <div className="emoji-picker">
+      <Picker />
+    </div>
+  );
+  const [pickerOpen, togglePicker] = React.useReducer(state => !state, false);
 
   const [formValue, setFormValue] = useState('');
 
@@ -125,12 +131,12 @@ function ChatRoom(){
 
       <div class="message-box">
 
-      <textarea  value={formValue} onChange={(e) => setFormValue(e.target.value)}  type="text" class="message-input" placeholder="Type message..."></textarea>
-
-
+        <textarea  value={formValue} onChange={(e) => setFormValue(e.target.value)}  type="text" class="message-input" placeholder="Type message..."></textarea>
       
-          <button onClick={sendMessage} class="message-submit"><img class="rocket" src={ReactLogo}></img></button>
-
+        <button onClick={togglePicker} class="emoji-icon"><img class="smiley" src={smileLogo}></img></button>
+        {pickerOpen && <EmojiPicker />}
+        
+        <button onClick={sendMessage} class="message-submit"><img class="rocket" src={ReactLogo}></img></button>
 
       </div>
     </>
