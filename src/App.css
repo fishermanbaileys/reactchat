@@ -10,6 +10,7 @@ body {
   max-width: 100%;
   margin: 0 auto;
   overflow: hidden;
+  
 }
 
 .App header {
@@ -26,9 +27,10 @@ body {
   justify-content: center;
   justify-content: flex-end;
   z-index: 99;
-  padding: 10px;
+  padding: 20px;
   box-sizing: border-box;
   background-color: #4C1D95;
+
 }
 
 .App section {
@@ -44,18 +46,28 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background-color: #7D5AB2;
+  background-color: #4C1D95;
+  
+  
 }
 
 main {
+
   padding: 10px;
-  height: 84.5vh;
-  margin: 6vh  0 0;
+  padding-top:40px;
+  height: 76vh;
+  margin: 11vh  0 0;
   overflow-y: scroll;
   display: flex;
   flex-direction: column;
-  
+  background-image: url('./components/recback.png');
+  background-size: 100% 100%;
+  z-index: 980;
+  /*scrollbar-width: thin;         
+  scrollbar-color: blue orange;   */
+ 
 }
+
 
 .loginbtn{
   height: 100vh;
@@ -71,17 +83,7 @@ main {
   z-index: 999;
 }
 
-main::-webkit-scrollbar {
-  width: 0.25rem;
-}
 
-main::-webkit-scrollbar-track {
-  background: #1e1e24;
-}
-
-main::-webkit-scrollbar-thumb {
-  background: #88834e;
-}
 
 input {
   line-height: 1.5;
@@ -94,9 +96,24 @@ input {
   padding: 0 10px;
   border-radius: 35px;
 }
+button4{
+  color:#ffffff;
+  font-family:'Poppins', sans-serif;;
+  font-size:25px;
+  cursor:pointer;
+}
 
-button3 {
+button4:hover  {
+  color:#ffffff;
+  transform: translate3d(0, 0, 0);
+  perspective: 1000px;
+  text-shadow: 0 3px 8px #7D5AB2;
+  color: rgb(191, 99, 228);
+}
+
   
+button3 {
+  text-align: left;
   background-color:#7D5AB2;
   border-radius:35px;
   display:inline-block;
@@ -104,36 +121,50 @@ button3 {
   color:#ffffff;
   font-family:'Poppins', sans-serif;;
   font-size:25px;
-  padding:15px 64px;
+  padding:15px 129px 15px 94px;
   text-decoration: none; 
+  box-shadow: 0 3px 4px 0 rgba(0, 0, 0, .2);
+  
 }
 
-button3:hover {
+button3 .google-icon-svg{
+  position: absolute;
+  margin-top: 3px;
+  margin-left: 9px;
+  width: 32px;
+  height: 32px;
+ 
+  
+}
+
+
+button3:hover  {
 background-color:#7D5AB2;
+box-shadow: 0 3px 8px #7D5AB2;
+transform: translate3d(0, 0, 0);
+perspective: 1000px;
+background: rgb(191, 99, 228);
 }
 
+
+button3:hover .google-icon-svg{
+ 
+  transform: translate3d(0, 1px, 0);
+  perspective: 1000px;
+ 
+  }
 
 button3:active {
 position:relative;
-top:1px;
 }
-
-      
 
 button3:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
 
-button3:hover {
-  animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
-  transform: translate3d(0, 0, 0);
-  perspective: 1000px;
-  background: rgb(191, 99, 228);
-  
-  color: white;
-}
 
+/*end of button 3*/
 
 button2 {
   background-color:#7D5AB2;
@@ -145,11 +176,16 @@ button2 {
   font-size:25px;
   padding:15px 75px;
   text-decoration:none;
+  box-shadow: 0 3px 4px 0 rgba(0, 0, 0, .2);
   }
 
 
 button2:hover {
   background-color:#7D5AB2;
+  box-shadow: 0 3px 8px #7D5AB2;
+  transform: translate3d(0, 0, 0);
+  perspective: 1000px;
+  background: rgb(191, 99, 228);
   }
   
   
@@ -165,14 +201,7 @@ button2:disabled {
     cursor: not-allowed;
   }
 
-button2:hover {
-    animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
-    transform: translate3d(0, 0, 0);
-    perspective: 1000px;
-    background: rgb(191, 99, 228);
-    
-    color: white;
-  }
+/*End of button 2*/
 
   button1 {
     background-color:#7D5AB2;
@@ -246,19 +275,31 @@ p {
 }
 
 
+
+
+
+
 .sent {
   flex-direction: row-reverse;
+  
 }
+
 
 .sent p {
   color: black;
   background: #ada5f5;
   align-self: flex-end;
+
+  
 }
 .received p {
   background: #fdb5b5;
   color: black;
+
 }
+
+
+
 
 img {
   width: 40px;
@@ -268,16 +309,29 @@ img {
 }
 
 .rocket{
-  width: 40px;
-  height: 40px;
-  border-radius: none;
-  margin: 0 4px;
+display: flex;
+margin: 0 0;
+
+} 
+
+.rocket:hover{
+  filter: drop-shadow(0 0 0.75rem rgb(248, 88, 248));
+  
 }
 
+
+
 .smiley{
-  width: 25px;
-  height: 25px;
+  width: 30px;
+  height: 30px;
+  margin:0 0;
 }
+
+.smiley:hover{
+  filter: drop-shadow(0 0 0.75rem rgb(248, 88, 248));
+}
+
+
 
 textarea {
   overflow: auto;
@@ -292,7 +346,7 @@ textarea {
   height: 4.5vh;
   padding: 15px;
   position: relative;
-
+  gap:5px;
 }
 
 
@@ -317,29 +371,36 @@ textarea {
 .message-box .message-submit {
   order: 4;
   z-index: 1;
-  top: 14px;
-  right: 4vh;
-  border: none;
-  outline: none !important;
+  cursor: pointer;
+  border-radius: none;
   background-color: transparent;
+  display: flex;
+  justify-content: center; /* align horizontal */
+  align-items: center; /* align vertical */
+  border:none;
+  
 }
+
 
 
 .message-box .emoji-icon {
   order: 3;
+  display: flex;
+  justify-content: center; /* align horizontal */
+  align-items: center; /* align vertical */
   cursor: pointer;
   align-self: center;
   z-index: 999;
   position: relative;
-  right: 2.75vw;
-  top: 2px;
   border: none;
   outline: none !important;
   background-color: transparent;
+  
 }
 
 .emoji-picker {
   position: absolute;
   bottom: 60px;
   right: 20px;
+  z-index: 998;
 }

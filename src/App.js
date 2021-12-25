@@ -4,9 +4,9 @@ import './App.css';
 import ReactLogo from './components/sendicon.svg';
 import smileLogo from './components/smileBitch.png';
 import Picker from 'emoji-picker-react';
-
-
-
+//import {useSpring, animated as a} from 'react-spring'
+import SimpleBar from 'simplebar-react';
+import 'simplebar/dist/simplebar.min.css';
 
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
@@ -68,9 +68,11 @@ function SignIn() {
   return (
     <div class='loginbtn'>
 
-    <button3 class="material-bubble" onClick={signInWithGoogle}>Login with Google</button3>
+    <button3 class="material-bubble" onClick={signInWithGoogle}>Login with<img class="google-icon-svg" src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"/></button3>
 
     <button2 onClick={useSignInWithEmailAndPassword}>Login with Email</button2>
+
+    <button4>New User? Sign Up</button4>
 
     </div>
   )
@@ -123,6 +125,7 @@ function ChatRoom(){
   return(
     <>
       <main>
+        
        {messages && messages.map(msg => <ChatMessage key={msg.id} message={msg} />)}
       
         <div ref={dummy}></div>
