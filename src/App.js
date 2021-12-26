@@ -47,7 +47,7 @@ function App() {
       </header>
 
       <section>
-        <div clreaass="backgroundlog">
+        <div class="backgroundlog">
         {user ? <ChatRoom /> : <SignIn />}
         </div>
       </section>

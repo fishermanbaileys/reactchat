@@ -10,7 +10,6 @@ body {
   max-width: 100%;
   margin: 0 auto;
   overflow: hidden;
-  min-height: fit-content;
   
 }
 
@@ -48,7 +47,7 @@ body {
   flex-direction: column;
   justify-content: center;
   background-color: #4C1D95;
-  min-height: 14vh;
+  
   
 }
 
@@ -57,7 +56,7 @@ main {
   padding: 10px;
   padding-top:40px;
   height: 76vh;
-  margin: 11vh 0 0;
+  margin: 11vh  0 0;
   overflow-y: scroll;
   display: flex;
   flex-direction: column;
@@ -345,7 +344,6 @@ textarea {
   flex-direction: row;
   display: flex;
   height: 4.5vh;
-  min-height: 4.0vh;
   padding: 15px;
   position: relative;
   gap:5px;
