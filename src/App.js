@@ -4,9 +4,7 @@ import './App.css';
 import ReactLogo from './components/sendicon.svg';
 import smileLogo from './components/smileBitch.png';
 import Picker from 'emoji-picker-react';
-//import {useSpring, animated as a} from 'react-spring'
-import SimpleBar from 'simplebar-react';
-import 'simplebar/dist/simplebar.min.css';
+
 
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
@@ -42,12 +40,11 @@ function App() {
   return (
     <div className="App">
       <header>
-        
         <SignOut />
       </header>
 
       <section>
-        <div class="backgroundlog">
+        <div clreaass="backgroundlog">
         {user ? <ChatRoom /> : <SignIn />}
         </div>
       </section>
@@ -93,15 +90,16 @@ function ChatRoom(){
 
   const [messages] = useCollectionData(query, {idField: 'id'});
 
-  //Emoji Construct
-  const EmojiPicker = () => (
-    <div className="emoji-picker">
-      <Picker />
-    </div>
-  );
-  const [pickerOpen, togglePicker] = React.useReducer(state => !state, false);
-
   const [formValue, setFormValue] = useState('');
+
+   //Emoji Construct
+   const [pickerOpen, togglePicker] = React.useReducer(state => !state, false);
+   const ref = useRef(null);
+   const onEmojiClick = (event, emojiObject) => {
+     const cursor = ref.current.selectionStart;
+     const text = formValue.slice(0, cursor) + emojiObject.emoji + formValue.slice(cursor);
+     setFormValue(text);
+   };
 
   const sendMessage = async(e) => {
 
@@ -134,10 +132,16 @@ function ChatRoom(){
 
       <div class="message-box">
 
-        <textarea  value={formValue} onChange={(e) => setFormValue(e.target.value)}  type="text" class="message-input" placeholder="Type message..."></textarea>
-      
-        <button onClick={togglePicker} class="emoji-icon"><img class="smiley" src={smileLogo}></img></button>
-        {pickerOpen && <EmojiPicker />}
+        <input id="text" ref={ref} type="text" class="message-input" placeholder="Type your message" value={formValue}
+          onKeyPress={e => {
+           if (e.key !== "Enter") return;
+           console.log(formValue);
+          }}
+          onChange={e => setFormValue(e.target.value)}
+        />
+
+        <button onClick={togglePicker} class="emoji-icon"><img class="smiley" src={smileLogo}></img></button>        
+        {pickerOpen && <div className="emoji-picker"><Picker onEmojiClick={onEmojiClick} /></div>}
         
         <button onClick={sendMessage} class="message-submit"><img class="rocket" src={ReactLogo}></img></button>
 
