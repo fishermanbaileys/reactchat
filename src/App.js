@@ -91,8 +91,7 @@ function ChatRoom(){
   const [messages] = useCollectionData(query, {idField: 'id'});
 
   const [formValue, setFormValue] = useState('');
-
-   //Emoji Construct
+   //Emoji picker code
    const [pickerOpen, togglePicker] = React.useReducer(state => !state, false);
    const ref = useRef(null);
    const onEmojiClick = (event, emojiObject) => {
