@@ -1,11 +1,11 @@
 
 import React, { useState, useRef } from 'react';
 import './App.css';
-
+import { useNavigate } from 'react-router-dom';
 import ReactLogo from './components/sendicon.svg';
 import smileLogo from './components/smileBitch.png';
 import Picker from 'emoji-picker-react';
-
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 
 
@@ -37,10 +37,11 @@ const firestore = firebase.firestore();
 
 
 
-function App(props) {
+function App() {
 
 
   const [user] = useAuthState(auth);
+  
   
   
   
@@ -49,14 +50,22 @@ function App(props) {
       <header>
         <SignOut />
       </header>
+
+     <section>        
+        <div class="backgroundlog">        
+
       
-      <section>        
-        <div class="backgroundlog">
-        
-        {user ? <ChatRoom/>  : <SignIn/> }
-        
-        
-        
+
+      <Router>
+        <Routes>
+          <Route path="/" element={<SignIn/>}/>
+          <Route path="/SignInWithEmail" element={<SignInWithEmail/>}/>
+          <Route path="/SignUp" element={<SignUp/>}/>
+          <Route path="/ChatRoom" element={<ChatRoom/>}/>
+        </Routes> 
+      </Router>
+
+    
 
         </div>
         
@@ -72,6 +81,8 @@ function App(props) {
 
 function SignIn() {
 
+  let navigate = useNavigate();
+
 
   const signInWithGoogle = () => {
     const provider = new firebase.auth.GoogleAuthProvider();
@@ -81,26 +92,29 @@ function SignIn() {
   
   }
 
-  var whichButton = false;
 
-  {whichButton ? <SignUp/> : <SignIn/>}
   
  
-  return (
-      
+  return  (
+    
     
     <div class='loginbtn'>
 
-    <button3 class="material-bubble" onClick={signInWithGoogle}>Login with<img class="google-icon-svg" src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"/></button3>
+    <button3 class="material-bubble" onClick={signInWithGoogle} onClick={() => {navigate(<ChatRoom/>)}}>Login with<img class="google-icon-svg" src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"/></button3>
 
     <button2 onClick={useSignInWithEmailAndPassword}>Login with Email</button2>
     
-   
-    <button4 onClick=whichButton = true>New User? Sign Up</button4>
+    <button4 onClick={() => {navigate("/SignUp")}}>New User? Sign Up</button4>
 
 
     </div>
+
+  
   )
+
+}
+
+function SignInWithEmail() {
 
 }
 
@@ -125,7 +139,7 @@ function SignUp() {
     <>
     <div className={signUp}>
         <form action="">
-            <h1>Sign in</h1>
+            <h1>Sign Up</h1>
             <input ref={emailRef} type="email" />
             <input ref={passwordRef} type="password" />
             <button>Sign in </button>
@@ -136,11 +150,13 @@ function SignUp() {
 )
 
 
-
 }
 
-
 function SignOut(){
+
+
+
+
   return auth.currentUser&& (
 
     <button1 onClick={() => auth.signOut()}>Sign Out</button1>
