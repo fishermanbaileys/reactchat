@@ -301,16 +301,15 @@ function ChatRoom(){
         <div ref={dummy}></div>
       
       </main>
-
+    <div class="ChatBar">
       <div class="message-box">
-
         <textarea  value={formValue} onChange={(e) => setFormValue(e.target.value)}  type="text" class="message-input" placeholder="Type message..."></textarea>
       
         <button onClick={togglePicker} class="emoji-icon"><img class="smiley" src={smileLogo}></img></button>
         {pickerOpen && <EmojiPicker />}
         
         <button onClick={sendMessage} class="message-submit"><img class="rocket" src={ReactLogo}></img></button>
-
+        </div>
       </div>
     </>
   )
