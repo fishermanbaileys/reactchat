@@ -1,9 +1,12 @@
 
 import React, { useState, useRef } from 'react';
 import './App.css';
+import { useNavigate, useLocation, Navigate, Outlet } from 'react-router-dom';
 import ReactLogo from './components/sendicon.svg';
 import smileLogo from './components/smileBitch.png';
 import Picker from 'emoji-picker-react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { motion } from "framer-motion"
 
 
 import firebase from 'firebase/compat/app';
@@ -33,55 +36,224 @@ const auth = firebase.auth();
 const firestore = firebase.firestore();
 
 
+
 function App() {
 
-  const [user] = useAuthState(auth);
+
+  
 
   return (
     <div className="App">
-      <header>
+
+     <header>
         <SignOut />
-      </header>
+    </header>
 
-      <section>
-        <div clreaass="backgroundlog">
-        {user ? <ChatRoom /> : <SignIn />}
-        </div>
+     <section>        
+      
+      <div class="backgroundlog">        
+
+      <Router>
+        <Routes>
+          <Route path="/" element={<Home/>}/>
+          <Route path="/SignInWithEmail" element={<SignInWithEmail/>}/>
+          <Route path="/SignUp" element={<SignUp/>}/>
+          <Route path="/ChatRoom" element={<RequireAuth><ChatRoom/></RequireAuth>}/>
+          <Route path="*" element={<NotFound/>} />
+        </Routes> 
+      </Router>
+
+    
+
+      </div>
+        
       </section>
-
+      
     </div>
+    
   );
 }
 
-function SignIn() {
+
+function Home(){
+
   
-  const signInWithGoogle = () => {
-    const provider = new firebase.auth.GoogleAuthProvider();
-    auth.signInWithPopup(provider);
+  
+  let navigate = useNavigate();
+  
+  return  (
 
-  }
-
-
-  return (
+    
+    
     <div class='loginbtn'>
 
-    <button3 class="material-bubble" onClick={signInWithGoogle}>Login with<img class="google-icon-svg" src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"/></button3>
+    <motion.div
+      initial={{ opacity: 0, y: -50 }}
+      animate={{ opacity: 1, y: 0 }}  
+>
+      <div class="buttonwrap">
 
-    <button2 onClick={useSignInWithEmailAndPassword}>Login with Email</button2>
-
-    <button4>New User? Sign Up</button4>
-
+    <button3 onClick={() => {SignInWithGoogle(); navigate("/ChatRoom")}} >Login with<img class="google-icon-svg" src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"/></button3>
+    
+    <button2 onClick={() => {navigate("/SignInWithEmail")}}>Login with Email</button2>
+    
+    <button4 onClick={() => {navigate("/SignUp")}}>New User? Sign Up</button4>
     </div>
+    </motion.div>
+    </div>
+  
   )
+
+}
+//COMPLETE DO NOT TOUCH EASILY BREAKS trust me :....(
+//Forces them back to login if not logged in means they cant go to that page or be on that page if they are not logged in
+function RequireAuth({children}) {
+  let location = useLocation();
+  const [user] = useAuthState(auth);
+ 
+  return user
+  ? children
+  : <Navigate
+      to="/"
+      replace
+      state={{ path: location.pathname }}
+    />;
+ 
+ 
 }
 
-function SignOut(){
-  return auth.currentUser&& (
 
+function SignInWithGoogle() {
+
+  const provider = new firebase.auth.GoogleAuthProvider();
+  auth.signInWithPopup(provider);
+
+}
+
+
+//Needs 
+function SignInWithEmail() {
+  let navigate = useNavigate();
+
+  return (
+    <>
+    <div class="SignUp">
+      <div class="wrapper">
+        <form action="">
+            <h1>Sign In</h1>
+            
+  
+            <div class="form-group">
+            <label for="Email"></label>
+            <input  type="Email" id="Email" placeholder="Email Address" />          
+            </div>
+
+            <div class="form-group">
+            <label for="password"></label>
+            <input type="password" id="password" placeholder="Password" />          
+            </div>
+
+
+            <div class="form-group"></div>
+            <button class="SignBtn" type="submit">Login</button>
+        </form>
+        <p class="additional-act">Don't have an account ? <span onClick={() => {navigate("/SignUp")}}> Sign Up</span></p>
+    </div>
+    </div>
+    </>
+)
+
+}
+
+//Needs Server Sign Sync
+function SignUp() {
+
+  
+
+
+  let navigate = useNavigate();
+  const emailRef = useRef(null);
+  const passwordRef = useRef(null);
+  
+  const signUp = e => {
+    e.preventDefault();
+    auth.createUserWithEmailAndPassword(
+        emailRef.current.value,
+        passwordRef.current.value
+    ).then(user => {
+        console.log(user)
+    }).catch(err => {
+        console.log(err)
+    })
+  }
+
+  return (
+    <>
+    
+    <div class="SignUp">
+      
+      <div class="wrapper">
+      <motion.div
+        initial={{height: "200vh", bottom: 0}}
+        animate={{
+        height: 0,
+        transition: {
+        duration: .6,
+        ease: [0.87, 0, 0.13, 1]    
+        }}}>
+
+        </motion.div>
+
+        <form action="">
+            <h1>Lets create your account</h1>
+            
+            <div class="form-group">
+            <label for="fullname"></label>
+            <input type="text" id="fullname" placeholder="Full Name"/>          
+            </div>
+
+            <div class="form-group">
+            <label for="Email"></label>
+            <input ref={emailRef} type="Email" id="Email" placeholder="Email Address" />          
+            </div>
+
+            <div class="form-group">
+            <label for="password"></label>
+            <input type="password" id="password" placeholder="Password" />          
+            </div>
+
+            <div class="form-group">
+            <label ref={passwordRef} for="password"></label>
+            <input type="password" id="Confirm Password" placeholder="Confirm Password" />          
+            </div>
+
+            <div class="form-group"></div>
+            <button class="SignBtn" type="submit">Create an account</button>
+        </form>
+        <p class="additional-act">Already have an account? <span onClick={() => {navigate("/")}}> Sign in </span></p>
+    </div>
+    </div>
+    </>
+)
+
+
+}
+
+
+//Complete
+function SignOut(){ 
+  return auth.currentUser&& (
     <button1 onClick={() => auth.signOut()}>Sign Out</button1>
   )
 }
 
+//Not Complete
+function NotFound() {
+
+}
+
+
+//Add Emoji
 function ChatRoom(){
   
   const dummy = useRef();
@@ -90,15 +262,15 @@ function ChatRoom(){
 
   const [messages] = useCollectionData(query, {idField: 'id'});
 
+  //Emoji Construct
+  const EmojiPicker = () => (
+    <div className="emoji-picker">
+      <Picker />
+    </div>
+  );
+  const [pickerOpen, togglePicker] = React.useReducer(state => !state, false);
+
   const [formValue, setFormValue] = useState('');
-   //Emoji picker code
-   const [pickerOpen, togglePicker] = React.useReducer(state => !state, false);
-   const ref = useRef(null);
-   const onEmojiClick = (event, emojiObject) => {
-     const cursor = ref.current.selectionStart;
-     const text = formValue.slice(0, cursor) + emojiObject.emoji + formValue.slice(cursor);
-     setFormValue(text);
-   };
 
   const sendMessage = async(e) => {
 
@@ -121,6 +293,7 @@ function ChatRoom(){
 
   return(
     <>
+      
       <main>
         
        {messages && messages.map(msg => <ChatMessage key={msg.id} message={msg} />)}
@@ -131,16 +304,10 @@ function ChatRoom(){
 
       <div class="message-box">
 
-        <input id="text" ref={ref} type="text" class="message-input" placeholder="Type your message" value={formValue}
-          onKeyPress={e => {
-           if (e.key !== "Enter") return;
-           console.log(formValue);
-          }}
-          onChange={e => setFormValue(e.target.value)}
-        />
-
-        <button onClick={togglePicker} class="emoji-icon"><img class="smiley" src={smileLogo}></img></button>        
-        {pickerOpen && <div className="emoji-picker"><Picker onEmojiClick={onEmojiClick} /></div>}
+        <textarea  value={formValue} onChange={(e) => setFormValue(e.target.value)}  type="text" class="message-input" placeholder="Type message..."></textarea>
+      
+        <button onClick={togglePicker} class="emoji-icon"><img class="smiley" src={smileLogo}></img></button>
+        {pickerOpen && <EmojiPicker />}
         
         <button onClick={sendMessage} class="message-submit"><img class="rocket" src={ReactLogo}></img></button>
 
