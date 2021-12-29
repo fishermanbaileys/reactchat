@@ -1,9 +1,12 @@
 
 import React, { useState, useRef } from 'react';
 import './App.css';
+
 import ReactLogo from './components/sendicon.svg';
 import smileLogo from './components/smileBitch.png';
 import Picker from 'emoji-picker-react';
+
+
 
 
 import firebase from 'firebase/compat/app';
@@ -33,47 +36,109 @@ const auth = firebase.auth();
 const firestore = firebase.firestore();
 
 
-function App() {
+
+function App(props) {
+
 
   const [user] = useAuthState(auth);
-
+  
+  
+  
   return (
     <div className="App">
       <header>
         <SignOut />
       </header>
+      
+      <section>        
+        <div class="backgroundlog">
+        
+        {user ? <ChatRoom/>  : <SignIn/> }
+        
+        
+        
 
-      <section>
-        <div clreaass="backgroundlog">
-        {user ? <ChatRoom /> : <SignIn />}
         </div>
+        
       </section>
-
+      
     </div>
+    
   );
 }
 
+
+
+
 function SignIn() {
-  
+
+
   const signInWithGoogle = () => {
     const provider = new firebase.auth.GoogleAuthProvider();
     auth.signInWithPopup(provider);
 
+
+  
   }
 
+  var whichButton = false;
 
+  {whichButton ? <SignUp/> : <SignIn/>}
+  
+ 
   return (
+      
+    
     <div class='loginbtn'>
 
     <button3 class="material-bubble" onClick={signInWithGoogle}>Login with<img class="google-icon-svg" src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"/></button3>
 
     <button2 onClick={useSignInWithEmailAndPassword}>Login with Email</button2>
+    
+   
+    <button4 onClick=whichButton = true>New User? Sign Up</button4>
 
-    <button4>New User? Sign Up</button4>
 
     </div>
   )
+
 }
+
+function SignUp() {
+  
+  const emailRef = useRef(null);
+  const passwordRef = useRef(null);
+  
+  const signUp = e => {
+    e.preventDefault();
+    auth.createUserWithEmailAndPassword(
+        emailRef.current.value,
+        passwordRef.current.value
+    ).then(user => {
+        console.log(user)
+    }).catch(err => {
+        console.log(err)
+    })
+  }
+
+  return (
+    <>
+    <div className={signUp}>
+        <form action="">
+            <h1>Sign in</h1>
+            <input ref={emailRef} type="email" />
+            <input ref={passwordRef} type="password" />
+            <button>Sign in </button>
+        </form>
+    </div>
+
+    </>
+)
+
+
+
+}
+
 
 function SignOut(){
   return auth.currentUser&& (
@@ -90,15 +155,15 @@ function ChatRoom(){
 
   const [messages] = useCollectionData(query, {idField: 'id'});
 
+  //Emoji Construct
+  const EmojiPicker = () => (
+    <div className="emoji-picker">
+      <Picker />
+    </div>
+  );
+  const [pickerOpen, togglePicker] = React.useReducer(state => !state, false);
+
   const [formValue, setFormValue] = useState('');
-   //Emoji picker code
-   const [pickerOpen, togglePicker] = React.useReducer(state => !state, false);
-   const ref = useRef(null);
-   const onEmojiClick = (event, emojiObject) => {
-     const cursor = ref.current.selectionStart;
-     const text = formValue.slice(0, cursor) + emojiObject.emoji + formValue.slice(cursor);
-     setFormValue(text);
-   };
 
   const sendMessage = async(e) => {
 
@@ -131,16 +196,10 @@ function ChatRoom(){
 
       <div class="message-box">
 
-        <input id="text" ref={ref} type="text" class="message-input" placeholder="Type your message" value={formValue}
-          onKeyPress={e => {
-           if (e.key !== "Enter") return;
-           console.log(formValue);
-          }}
-          onChange={e => setFormValue(e.target.value)}
-        />
-
-        <button onClick={togglePicker} class="emoji-icon"><img class="smiley" src={smileLogo}></img></button>        
-        {pickerOpen && <div className="emoji-picker"><Picker onEmojiClick={onEmojiClick} /></div>}
+        <textarea  value={formValue} onChange={(e) => setFormValue(e.target.value)}  type="text" class="message-input" placeholder="Type message..."></textarea>
+      
+        <button onClick={togglePicker} class="emoji-icon"><img class="smiley" src={smileLogo}></img></button>
+        {pickerOpen && <EmojiPicker />}
         
         <button onClick={sendMessage} class="message-submit"><img class="rocket" src={ReactLogo}></img></button>
 
