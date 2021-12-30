@@ -15,6 +15,7 @@ import 'firebase/compat/auth';
 
 import { useAuthState, useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 //import { signInAnonymously } from 'firebase/auth';
 
 firebase.initializeApp({
@@ -133,7 +134,27 @@ function SignInWithGoogle() {
 
 //Needs 
 function SignInWithEmail() {
+  
   let navigate = useNavigate();
+  const emailRef = useRef(null);
+  const passwordRef = useRef(null);
+
+  const signIn = e => {
+    e.preventDefault();
+    auth.signInWithEmailAndPassword(
+        emailRef.current.value,
+        passwordRef.current.value
+    ).then((userCredential) => {
+        // Signed in 
+        var user = userCredential.user;
+        // ...
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+      });
+      navigate("/ChatRoom");
+    }
 
   return (
     <>
@@ -155,7 +176,7 @@ function SignInWithEmail() {
 
 
             <div class="form-group"></div>
-            <button class="SignBtn" type="submit">Login</button>
+            <button class="SignBtn" type="submit" onClick={signIn}>Login</button>
         </form>
         <p class="additional-act">Don't have an account ? <span onClick={() => {navigate("/SignUp")}}> Sign Up</span></p>
     </div>
@@ -168,24 +189,27 @@ function SignInWithEmail() {
 //Needs Server Sign Sync
 function SignUp() {
 
-  
-
-
   let navigate = useNavigate();
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
-  
+
   const signUp = e => {
     e.preventDefault();
     auth.createUserWithEmailAndPassword(
         emailRef.current.value,
         passwordRef.current.value
-    ).then(user => {
-        console.log(user)
-    }).catch(err => {
-        console.log(err)
+    ).then((userCredential) => {
+      // Signed in 
+      var user = userCredential.user;
+      // ...
     })
-  }
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+    });
+    navigate('/SignInWithEmail');
+  };
+
 
   return (
     <>
@@ -223,12 +247,12 @@ function SignUp() {
             </div>
 
             <div class="form-group">
-            <label ref={passwordRef} for="password"></label>
-            <input type="password" id="Confirm Password" placeholder="Confirm Password" />          
+            <label for="password"></label>
+            <input ref={passwordRef} type="password" id="Confirm Password" placeholder="Confirm Password" />          
             </div>
 
             <div class="form-group"></div>
-            <button class="SignBtn" type="submit">Create an account</button>
+            <button class="SignBtn" type="submit" onClick={signUp}>Create an account</button>
         </form>
         <p class="additional-act">Already have an account? <span onClick={() => {navigate("/")}}> Sign in </span></p>
     </div>
@@ -242,7 +266,7 @@ function SignUp() {
 
 //Complete
 function SignOut(){ 
-  return auth.currentUser&& (
+  return auth.currentUser && (
     <button1 onClick={() => auth.signOut()}>Sign Out</button1>
   )
 }
