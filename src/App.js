@@ -4,6 +4,7 @@ import './App.css';
 import { useNavigate, useLocation, Navigate, Outlet } from 'react-router-dom';
 import ReactLogo from './components/sendicon.svg';
 import smileLogo from './components/smileBitch.png';
+import genericProfilePic from './components/genericProfile.png';
 import Picker from 'emoji-picker-react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { motion } from 'framer-motion';
@@ -93,7 +94,7 @@ function Home(){
 >
       <div class="buttonwrap">
 
-    <button3 onClick={() => {SignInWithGoogle(); setTimeout(()=> {navigate("/ChatRoom")}, 1700);}}>Login with<img class="google-icon-svg" src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"/></button3>
+    <button3 onClick={() => {SignInWithGoogle(); setTimeout(()=> {navigate("/ChatRoom")}, 1800);}}>Login with<img class="google-icon-svg" src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"/></button3>
     
     <button2 onClick={() => {navigate("/SignInWithEmail")}}>Login with Email</button2>
     
@@ -190,15 +191,37 @@ function SignInWithEmail() {
 
 }
 
+function PasswordValidate(password) {
+  var re = {
+    'capital' : /[A-Z]/,
+    'digit'   : /[0-9]/,
+    'symbol'  : /[!@#*]/,
+    'full'    : /^([a-zA-Z0-9!@#$*](?=[:alnum:]{7,14}$)(?=.*[A-Z]{1,}.*$).+)$/
+  };
+  
+  if (!re.full.test(password)) {
+    //alert('Your password is too weak. Please make sure your password is between 8 and 14 charactersand contains at least: one capital letter, one number, one symbol (!, @, #, $, *)');
+    return false;
+  }
+  else {
+    return true;
+  }
+
+}
+
 //Needs Server Sign Sync
 function SignUp() {
 
   let navigate = useNavigate();
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
-
+  
+  //Maybe use this to create a ternary function somewhere in SignUp().
+  const isPassValid = PasswordValidate(passwordRef);
+  
   const signUp = e => {
     e.preventDefault();
+    
     auth.createUserWithEmailAndPassword(
         emailRef.current.value,
         passwordRef.current.value
@@ -209,10 +232,16 @@ function SignUp() {
       navigate('/SignInWithEmail');
       // ...
     })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-    });
+    .catch(
+      function(error) {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        
+        alert(errorMessage);
+        console.log(error);
+      },
+    );    
   };
 
 
@@ -360,7 +389,7 @@ function ChatMessage(props) {
 
   return (<>
     <div className={`message ${messageClass}`}>
-      <img src={photoURL || 'https://api.adorable.io/avatars/23/abott@adorable.png'} />
+      <img src={photoURL || genericProfilePic} />
       <p>{text}</p>
     </div>
   </>)
