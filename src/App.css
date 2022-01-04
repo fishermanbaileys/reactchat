@@ -33,7 +33,11 @@ footer{
   position: fixed;
   bottom: 0;
   width: 100%;
-  background: rgb(191, 99, 228);
+  background: rgb(191,99,228);
+  background: -moz-linear-gradient(0deg, rgba(191,99,228,1) 41%, rgba(166,71,228,1) 52%, rgba(156,40,228,1) 66%);
+  background: -webkit-linear-gradient(0deg, rgba(191,99,228,1) 41%, rgba(166,71,228,1) 52%, rgba(156,40,228,1) 66%);
+  background: linear-gradient(0deg, rgba(191,99,228,1) 41%, rgba(166,71,228,1) 52%, rgba(156,40,228,1) 66%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#bf63e4",endColorstr="#9c28e4",GradientType=1);
 }
 
 .buttonwrap{
