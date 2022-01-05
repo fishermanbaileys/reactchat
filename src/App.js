@@ -1,20 +1,19 @@
 
-import React, { useState, useRef, useCallback, useContext, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import './App.css';
-import { useNavigate, useLocation, Navigate, Outlet } from 'react-router-dom';
+import { useNavigate} from 'react-router-dom';
 import ReactLogo from './components/sendicon.svg';
-import smileLogo from './components/smileBitch.png';
+import smileLogo from './components/emojiicon.png';
 import Picker from 'emoji-picker-react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { motion } from 'framer-motion';
-
+import logo from './components/logout.png';
 
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 import 'firebase/compat/auth';
 
 import { useCollectionData } from 'react-firebase-hooks/firestore';
-import { Children } from 'react/cjs/react.production.min';
 
 
 firebase.initializeApp({
@@ -45,18 +44,14 @@ function onAuthStateChange(callback) {
   });
 }
 
-
-
 function App() {
-  
-
 
   return (
     <div className="App">
       
      <section>        
       
-      <div class="backgroundlog">        
+           
 
       <Router>
         <Routes>
@@ -68,7 +63,7 @@ function App() {
         </Routes> 
       </Router>
 
-      </div>
+      
         
       </section>
       
@@ -83,8 +78,6 @@ function Home(){
   
   return  (
 
-    
-    
     <div class='loginbtn'>
 
     <motion.div
@@ -93,7 +86,7 @@ function Home(){
 >
       <div class="buttonwrap">
 
-    <button3 onClick={() => {SignInWithGoogle(); setTimeout(()=> {navigate("/ChatRoom")}, 1700);}}>Login with<img class="google-icon-svg" src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"/></button3>
+    <button3 onClick={() => {SignInWithGoogle(); setTimeout(()=> {navigate("/ChatRoom")}, 1800);}}>Login with<img class="google-icon-svg" src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"/></button3>
     
     <button2 onClick={() => {navigate("/SignInWithEmail")}}>Login with Email</button2>
     
@@ -148,7 +141,6 @@ function SignInWithEmail() {
         passwordRef.current.value
     ).then((userCredential) => {
       // Signed in 
-      
       const user = userCredential.user;
       navigate('/ChatRoom');
       // ...
@@ -214,6 +206,19 @@ function SignUp() {
       const errorMessage = error.message;
     });
   };
+
+  var validPassword = function() {
+    var passwordRegex = {
+      'full': /^(?=.\d)(?=.[a-z])(?=.[A-Z])(?=.[a-zA-Z]).{8,}$/gm
+    };
+    if (passwordRegex.full.test(document.getElementById('confirm_Password').value)) {
+      document.getElementById('VALID').style.color = 'green';
+      document.getElementById('VALID').innerHTML = 'matching';
+    } else {
+      document.getElementById('VALID').style.color = 'red';
+      document.getElementById('VALID').innerHTML = 'not matching';
+    }
+  }
 
 
   return (
@@ -323,15 +328,17 @@ function ChatRoom(){
 
   return auth.currentUser &&(
     <>
-      <button1 onClick={() => auth.signOut()}>Sign Out</button1>
+      <div class="signOutBtn">
+      <button1 onClick={() => auth.signOut()}><img class="logoutlogo" src={logo}/></button1>
+      </div>
       <main>
-        
+      
        {messages && messages.map(msg => <ChatMessage key={msg.id} message={msg} />)}
       
         <div ref={dummy}></div>
       
       </main>
-    <div class="ChatBar">
+    <footer>
       <div class="message-box">
         <input id="text" ref={ref} type="text" class="message-input" placeholder="Type your message" value={formValue}
           onKeyPress={e => {
@@ -344,9 +351,9 @@ function ChatRoom(){
         <button onClick={togglePicker} class="emoji-icon"><img class="smiley" src={smileLogo}></img></button>        
         {pickerOpen && <div className="emoji-picker"><Picker onEmojiClick={onEmojiClick} /></div>}
         
-        <button onClick={sendMessage} class="message-submit"><img class="rocket" src={ReactLogo}></img></button>
+        <button onClick={sendMessage} class="message-submit"><div class='buttonwrapper'><img class="rocket" src={ReactLogo}></img></div></button>
         </div>
-      </div>
+      </footer>
     </>
   )
 
