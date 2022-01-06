@@ -5,6 +5,8 @@ body {
   font-family:'Poppins', sans-serif;
 }
 
+
+
 .App {
   text-align: center;
 }
@@ -17,6 +19,13 @@ body {
   width: 100%;
   z-index: 995;
 }
+section{
+  background: rgb(191,99,228);
+  background: -moz-linear-gradient(0deg, rgba(191,99,228,1) 41%, rgba(166,71,228,1) 52%, rgba(156,40,228,1) 66%);
+  background: -webkit-linear-gradient(0deg, rgba(191,99,228,1) 41%, rgba(166,71,228,1) 52%, rgba(156,40,228,1) 66%);
+  background: linear-gradient(0deg, rgba(191,99,228,1) 41%, rgba(166,71,228,1) 52%, rgba(156,40,228,1) 66%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#bf63e4",endColorstr="#9c28e4",GradientType=1);
+}
 
 main {
   position:relative;
@@ -24,7 +33,6 @@ main {
   overflow: auto;
   overflow-x: hidden;
   padding: 70px 5px;
-  background: rgb(191, 99, 228);
 }
 
 footer{
@@ -34,10 +42,6 @@ footer{
   bottom: 0;
   width: 100%;
   background: rgb(191,99,228);
-  background: -moz-linear-gradient(0deg, rgba(191,99,228,1) 41%, rgba(166,71,228,1) 52%, rgba(156,40,228,1) 66%);
-  background: -webkit-linear-gradient(0deg, rgba(191,99,228,1) 41%, rgba(166,71,228,1) 52%, rgba(156,40,228,1) 66%);
-  background: linear-gradient(0deg, rgba(191,99,228,1) 41%, rgba(166,71,228,1) 52%, rgba(156,40,228,1) 66%);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#bf63e4",endColorstr="#9c28e4",GradientType=1);
 }
 
 .buttonwrap{
@@ -500,7 +504,31 @@ top:1px;
   background-color: white;
 }
 
+.emoji-group{
+  background-color: white;
+}
 
+span{
+  color:rgb(191, 99, 228);
+  
+  
+}
+
+.invalidemail{
+  font-size: 18px;
+  color:red;
+}
+
+.forgot_pswd {
+  color:grey;
+  margin: 0;
+}  
+
+.forgot_pswd span {
+  color: grey;
+  cursor: pointer;
+  
+}
 
 
 

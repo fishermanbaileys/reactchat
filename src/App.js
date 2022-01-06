@@ -8,6 +8,7 @@ import Picker from 'emoji-picker-react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import logo from './components/logout.png';
+import usericon from './components/genericProfile.png';
 
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
@@ -56,6 +57,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<Home/>}/>
+          <Route path="/ForgotPassword" element={<ForgotPassword/>}/>
           <Route path="/SignInWithEmail" element={<SignInWithEmail/>}/>
           <Route path="/SignUp" element={<SignUp/>}/>
           <Route path="/ChatRoom" element={<IsAuth><ChatRoom/></IsAuth>}/>
@@ -86,7 +88,7 @@ function Home(){
 >
       <div class="buttonwrap">
 
-    <button3 onClick={() => {SignInWithGoogle(); setTimeout(()=> {navigate("/ChatRoom")}, 1800);}}>Login with<img class="google-icon-svg" src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"/></button3>
+    <button3 onClick={() => {SignInWithGoogle(); setTimeout(()=> {navigate("/ChatRoom")}, 3000);}}>Login with<img class="google-icon-svg" src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"/></button3>
     
     <button2 onClick={() => {navigate("/SignInWithEmail")}}>Login with Email</button2>
     
@@ -170,11 +172,62 @@ function SignInWithEmail() {
             <input ref={passwordRef} type="password" id="password" placeholder="Password" />          
             </div>
 
-
+            <p class="forgot_pswd"><span onClick={() => {navigate("/forgotPassword")}}>Forgot your password?</span></p>
             <div class="form-group"></div>
             <button class="SignBtn" onClick={signIn}>Login</button>
         </form>
         <p class="additional-act">Don't have an account ? <span onClick={() => {navigate("/SignUp")}}> Sign Up</span></p>
+    </div>
+    </div>
+    </>
+)
+
+}
+
+function ForgotPassword() {
+  
+  let navigate = useNavigate();
+
+  const emailRef = useRef(null);
+
+  const forgotPassword = e => {
+
+    e.preventDefault();
+    auth.sendPasswordResetEmail(emailRef.current.value)
+    .then(() => {
+      // Password reset email sent!
+      // ..
+      navigate('/');
+    })
+    .catch((error) => {
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      if (errorCode == 'auth/user-not-found') {
+          document.getElementById('invalidemail').innerHTML = 'Invalid Email';
+      } else {
+          alert(errorMessage);
+      }
+      // ..
+    });
+
+  };
+  
+  return (
+    <>
+    <div class="SignUp">
+      <div class="wrapper">
+        <form action="">
+            <h1>Forgot Password</h1>
+            <div class="form-group">
+            <input ref={emailRef} type="email" id="email" placeholder="Please Enter Email" /> 
+            <br></br>
+            <span class="invalidemail" id='invalidemail'></span>         
+            </div>
+            <div class="form-group"></div>
+            <button class="SignBtn" onClick={forgotPassword}>Send</button>
+            
+        </form>
+        <p class="additional-act">Remembered your password?<span onClick={() => {navigate("/")}}> Sign In</span></p>
     </div>
     </div>
     </>
@@ -191,41 +244,97 @@ function SignUp() {
 
   const signUp = e => {
     e.preventDefault();
-    auth.createUserWithEmailAndPassword(
-        emailRef.current.value,
-        passwordRef.current.value
-    ).then((userCredential) => {
-      // Signed in 
-      const user = userCredential.user;
-      
-      navigate('/SignInWithEmail');
-      // ...
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-    });
+    var passwordRegex = {
+      'full': /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$*])(?=.*[a-zA-Z0-9!@#$*]).{8,}$/gm
+    };
+
+    if(passwordRegex.full.test(passwordRef.current.value) && (document.getElementById('password').value == 
+    document.getElementById('confirm_password').value)) {
+      auth.createUserWithEmailAndPassword(
+          emailRef.current.value,
+          passwordRef.current.value
+      ).then((userCredential) => {
+        // Signed in 
+        const user = userCredential.user;
+
+        navigate('/SignInWithEmail');
+        // ...
+      }).catch((error) => {
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        if (errorCode == 'auth/email-already-in-use') {
+          alert('This email is already registered.');
+          document.getElementById('taken').innerHTML = 'This email is already registered.';
+        } else {
+          alert(errorMessage);
+        }
+      });
+    }else{
+
+      alert("Password Requirements Not Met");
+
+    }
   };
 
-  var validPassword = function() {
-    var passwordRegex = {
-      'full': /^(?=.\d)(?=.[a-z])(?=.[A-Z])(?=.[a-zA-Z]).{8,}$/gm
-    };
-    if (passwordRegex.full.test(document.getElementById('confirm_Password').value)) {
-      document.getElementById('VALID').style.color = 'green';
-      document.getElementById('VALID').innerHTML = 'matching';
-    } else {
-      document.getElementById('VALID').style.color = 'red';
-      document.getElementById('VALID').innerHTML = 'not matching';
+  var check = function() {
+
+    var re = {
+      'capital': /.*[A-Z]/,
+      'digit':  /.*[0-9]/,
+      'symbol': /.*[!@#$*]/,
+      'length': /^(?=.*\w).{8,}$/
+  };
+
+    if (document.getElementById('password').value == document.getElementById('confirm_password').value) {
+      document.getElementById('Match').style.color = 'green';
+      document.getElementById('Match').innerHTML = 'Matching ✓';
+    
+    } if (document.getElementById('password').value != document.getElementById('confirm_password').value){
+      document.getElementById('Match').style.color = 'red';
+      document.getElementById('Match').innerHTML = 'Not Matching';
+    
+    } if(re.capital.test(document.getElementById('password').value) == true)  {
+      document.getElementById('capital').style.color = 'green';
+      document.getElementById('capital').innerHTML = 'Capital ✓';
+
+    } if(re.capital.test(document.getElementById('password').value) == false)  {
+      document.getElementById('capital').style.color = 'red';
+      document.getElementById('capital').innerHTML = 'Add Capitals';
+
+    } if(re.digit.test(document.getElementById('password').value) == true)  {
+      document.getElementById('digits').style.color = 'green';
+      document.getElementById('digits').innerHTML = 'Digits ✓';
+
+    } if(re.digit.test(document.getElementById('password').value) == false)  {
+      document.getElementById('digits').style.color = 'red';
+      document.getElementById('digits').innerHTML = 'Add Digits';
+  
+    } if(re.symbol.test(document.getElementById('password').value) == true)  {
+      document.getElementById('symbols').style.color = 'green';
+      document.getElementById('symbols').innerHTML = 'Symbols ✓';
+
+    } if(re.symbol.test(document.getElementById('password').value) == false)  {
+      document.getElementById('symbols').style.color = 'red';
+      document.getElementById('symbols').innerHTML = 'Add Symbols';
+  
+    } if(re.length.test(document.getElementById('password').value) == true)  {
+      document.getElementById('length').style.color = 'green';
+      document.getElementById('length').innerHTML = 'Length ✓';
+
+    } if(re.length.test(document.getElementById('password').value) == false)  {
+      document.getElementById('length').style.color = 'red';
+      document.getElementById('length').innerHTML = 'Add Length';
+  
     }
+
+    
   }
 
-
-  return (
+return (
     <>
-    
+
     <div class="SignUp">
-      
+
       <div class="wrapper">
       <motion.div
         initial={{height: "200vh", bottom: 0}}
@@ -233,36 +342,47 @@ function SignUp() {
         height: 0,
         transition: {
         duration: .6,
-        ease: [0.87, 0, 0.13, 1]    
+        ease: [0.87, 0, 0.13, 1]
         }}}>
 
         </motion.div>
 
-        <form action="">
+        <form onSubmit={signUp} action="">
             <h1>Lets create your account</h1>
-            
+
             <div class="form-group">
             <label for="fullname"></label>
-            <input type="text" id="fullname" placeholder="Full Name"/>          
+            <input type="text" id="fullname" placeholder="Full Name"/>
             </div>
 
             <div class="form-group">
             <label for="Email"></label>
-            <input ref={emailRef} type="Email" id="Email" placeholder="Email Address" />          
+            <input ref={emailRef} type="Email" id="Email" placeholder="Email Address"></input>
+            <br></br>
+            <span id="taken"></span>
             </div>
 
             <div class="form-group">
             <label for="password"></label>
-            <input ref={passwordRef} type="password" id="password" placeholder="Password" />          
+            <input name="password" ref={passwordRef} type="password" id="password" placeholder="Password" onKeyUp={check}/>
             </div>
 
             <div class="form-group">
             <label for="password"></label>
-            <input type="password" id="Confirm Password" placeholder="Confirm Password" />          
+            <input name="confirm_password" id="confirm_password" type="password" placeholder="Confirm Password" onKeyUp={check}/>
             </div>
-
+      
+            <span id='Match'></span>
+            <span> | </span>
+            <span id='capital'></span>
+            <span> | </span>
+            <span id='digits'></span>
+            <span> | </span>
+            <span id='symbols'></span><span> | </span>
+            <span id='length'></span>
+        
             <div class="form-group"></div>
-            <button class="SignBtn" type="submit" onClick={signUp}>Create an account</button>
+            <button class="SignBtn" type="submit" >Create an account</button>
         </form>
         <p class="additional-act">Already have an account? <span onClick={() => {navigate("/")}}> Sign in </span></p>
     </div>
@@ -274,14 +394,7 @@ function SignUp() {
 }
 
 
-//Complete
-//function SignOut(){ 
-  //return auth.currentUser && (
-   // <button1 onClick={() => auth.signOut()}>Sign Out</button1>
-  //)
-//}
 
-//Not Complete
 function NotFound() {
 
 }
@@ -367,7 +480,7 @@ function ChatMessage(props) {
 
   return (<>
     <div className={`message ${messageClass}`}>
-      <img src={photoURL || 'https://api.adorable.io/avatars/23/abott@adorable.png'} />
+      <img src={photoURL || usericon } />
       <p>{text}</p>
     </div>
   </>)
