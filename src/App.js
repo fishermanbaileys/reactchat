@@ -18,13 +18,7 @@ import { useCollectionData } from 'react-firebase-hooks/firestore';
 
 
 firebase.initializeApp({
-  apiKey: "AIzaSyBTCC3D80WmuS37rJ3TZlGWxjdAMXYHNoQ",
-  authDomain: "reactchat-85657.firebaseapp.com",
-  projectId: "reactchat-85657",
-  storageBucket: "reactchat-85657.appspot.com",
-  messagingSenderId: "849973960376",
-  appId: "1:849973960376:web:c2a15b437d3a5a963e5e4d",
-  measurementId: "G-K2JBT5YXNV"
+  //Removed For Security Purposes :)
 })
 
 //reCaptcha AppCheck setup
@@ -100,8 +94,7 @@ function Home(){
   )
 
 }
-//COMPLETE DO NOT TOUCH EASILY BREAKS trust me :....(
-//Forces them back to login if not logged in means they cant go to that page or be on that page if they are not logged in
+
 function IsAuth({children}){
   let navigate = useNavigate();
   const [user, setUser] = useState({ loggedIn: false });
@@ -127,8 +120,6 @@ function SignInWithGoogle() {
   
 }
 
-
-//Needs 
 function SignInWithEmail() {
   
   let navigate = useNavigate();
@@ -235,7 +226,6 @@ function ForgotPassword() {
 
 }
 
-//Needs Server Sign Sync
 function SignUp() {
 
   let navigate = useNavigate();
