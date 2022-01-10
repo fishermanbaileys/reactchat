@@ -12,19 +12,19 @@
 <br />
 <div align="center">
 
-  <h3 align="center">Chatly</h3>
+  <h3 align="center">ReactChat</h3>
 
   <p align="center">
     An fun, easy to use online chatroom built with React!
     <br />
-    <a href="https://github.com/fishermanbaileys/Chatly"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/fishermanbaileys/reactchat"><strong>Explore the docs »</strong></a>
     <br />
     <br />
     <a href="https://www.baileygraham.com/Chatly/">View Demo</a>
     ·
-    <a href="https://github.com/fishermanbaileys/Chatly/issues">Report Bug</a>
+    <a href="https://github.com/fishermanbaileys/reactchat/issues">Report Bug</a>
     ·
-    <a href="https://github.com/fishermanbaileys/Chatly/issues">Request Feature</a>
+    <a href="https://github.com/fishermanbaileys/reactchat/issues">Request Feature</a>
   </p>
 </div>
 
@@ -68,6 +68,6 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 [contributors-url]: https://github.com/fishermanbaileys/Chatly/graphs/contributors
-[forks-url]: https://github.com/fishermanbaileys/Chatly/network/members
-[stars-url]: https://github.com/fishermanbaileys/Chatly/stargazers
-[issues-url]: https://github.com/fishermanbaileys/Chatly/issues
+[forks-url]: https://github.com/fishermanbaileys/reactchat/network/members
+[stars-url]: https://github.com/fishermanbaileys/reactchat/stargazers
+[issues-url]: https://github.com/fishermanbaileys/reactchat/issues
