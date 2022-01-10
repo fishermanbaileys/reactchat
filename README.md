@@ -24,7 +24,7 @@
     ·
     <a href="https://github.com/fishermanbaileys/Chatly/issues">Report Bug</a>
     ·
-    <a https://github.com/fishermanbaileys/Chatly/issues">Request Feature</a>
+    <a href="https://github.com/fishermanbaileys/Chatly/issues">Request Feature</a>
   </p>
 </div>
 
