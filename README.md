@@ -1,70 +1,74 @@
-# Getting Started with Create React App
+<div id="top"></div>
+<!--
+*** Thanks for checking out our online text messager!
+*** Send us a message to let us know what you think :D
+-->
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
 
-In the project directory, you can run:
+<!-- PROJECT SHIELDS -->
+<!--
+*** https://www.markdownguide.org/basic-syntax/#reference-style-links
+-->
+[![Contributors]][contributors-url]
+[![Forks]][forks-url]
+[![Stargazers]][stars-url]
+[![Issues]][issues-url]
 
-### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+<!-- PROJECT LOGO -->
+<br />
+<div align="center">
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+  <h3 align="center">Chatly</h3>
 
-### `npm test`
+  <p align="center">
+    An fun, easy to use online chatroom built with React!
+    <br />
+    <a href="https://github.com/fishermanbaileys/Chatly"><strong>Explore the docs »</strong></a>
+    <br />
+    <br />
+    <a href="https://www.baileygraham.com/Chatly/">View Demo</a>
+    ·
+    <a href="https://github.com/fishermanbaileys/Chatly/issues">Report Bug</a>
+    ·
+    <a https://github.com/fishermanbaileys/Chatly/issues">Request Feature</a>
+  </p>
+</div>
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
+<!-- ABOUT THE PROJECT -->
+## About The Project
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+This is a simple easy to use web chatroom created using React.js, Node.js, and Firebase. This project was finished by a two-person team over the course of a couple of days.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+After completing the core elements of the chatroom we built and implemented the following features/functions:
+* Two sign-in options:
+  * Google sign in provider
+  * Email and password (custom credetials)
+* Sign up function for creating an account with a custom email and password.
+  * This function includes custom regex validation to ensure the credentials meet our security standards.
+* Account recovery via email if a user forgets their password.
+* An emoji selector button that allows the user to insert an emoji at the cursor's location.
+* Backend security rules to protect user credentials, prevent excessive database use, and ban unfriendly users.
+* Router setup for page navigation based on login status and button usage.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+All of this is encapsulated into a clean, consistent styling with intentional buttons and an intuitive layout.
 
-### `npm run eject`
+                                                         
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Built With
+Here are the tools we used for our project:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+* [React.js](https://reactjs.org/)
+* [Node.js](https://nodejs.org)
+* [Firebase](https://firebase.google.com/)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+                                                         
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+<!-- MARKDOWN LINKS & IMAGES -->
+<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+[contributors-url]: https://github.com/fishermanbaileys/Chatly/graphs/contributors
+[forks-url]: https://github.com/fishermanbaileys/Chatly/network/members
+[stars-url]: https://github.com/fishermanbaileys/Chatly/stargazers
+[issues-url]: https://github.com/fishermanbaileys/Chatly/issues
