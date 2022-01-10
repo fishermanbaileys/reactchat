@@ -55,6 +55,13 @@ Here are the tools we used for our project:
 * [React.js](https://reactjs.org/)
 * [Node.js](https://nodejs.org)
 * [Firebase](https://firebase.google.com/)
+                                                         
+
+                                                         
+<!-- LICENSE -->
+## License
+
+Distributed under the MIT License. See `LICENSE.txt` for more information.
 
                                                          
 
